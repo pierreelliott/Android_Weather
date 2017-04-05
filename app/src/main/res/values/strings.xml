@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Météo/MétéBas</string>
+    <string name="text_init">Erreur</string>
+    <string name="update_button">Mettre à jour</string>
 </resources>

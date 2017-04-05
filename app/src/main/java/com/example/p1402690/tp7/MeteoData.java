@@ -9,6 +9,16 @@ import java.util.Date;
  */
 public class MeteoData {
 
+    private static String city;
+
+    public static String getCity() {
+        return city;
+    }
+
+    public static void setCity(String city) {
+        MeteoData.city = city;
+    }
+
     private Date time;
 
     private double temp;

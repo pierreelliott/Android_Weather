@@ -7,6 +7,7 @@ package com.example.p1402690.tp7;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,8 +28,9 @@ import java.util.Date;
  */
 public class MeteoAsyncTask extends AsyncTask<Object, Void, ArrayList<MeteoData>> {
 
-    View v;
-    MeteoAdapter adapter;
+    private View v;
+    private MeteoAdapter adapter;
+    private TextView tv_cityName;
 
     @Override
     protected ArrayList<MeteoData> doInBackground(Object... objects) {
@@ -43,6 +45,7 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, ArrayList<MeteoData>
         }
 
         adapter = (MeteoAdapter) objects[2];
+        tv_cityName = (TextView) objects[3];
 
         ArrayList<MeteoData> listMeteoData = new ArrayList<>();
         JSONObject meteoJson = null;
@@ -67,6 +70,8 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, ArrayList<MeteoData>
                 }
 
                 meteoJson = new JSONObject(meteoData);
+
+                MeteoData.setCity(meteoJson.getJSONObject("city").getString("name"));
 
                 JSONArray jsonList = meteoJson.getJSONArray("list");
                 for(int i  = 0; i < jsonList.length(); i++)
@@ -105,6 +110,7 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, ArrayList<MeteoData>
         if(v == null) {
             System.out.println("Erreur : View is null");
         } else if(v instanceof ListView) {
+            tv_cityName.setText(MeteoData.getCity());
             adapter.setList(result);
             adapter.notifyDataSetChanged();
             ((ListView) v).setAdapter(adapter);

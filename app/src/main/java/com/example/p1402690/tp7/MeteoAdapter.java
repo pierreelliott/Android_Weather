@@ -24,7 +24,7 @@ public class MeteoAdapter extends BaseAdapter implements AdapterView.OnItemClick
     private ArrayList<MeteoData> myList = new ArrayList<MeteoData>();
     private Context context;
 
-    DateFormat formatFR = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, new Locale("FR"));
+    DateFormat formatFR = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, new Locale("fr_FR"));
 
     // on passe le context afin d'obtenir un LayoutInflater pour utiliser notre
     // row_layout.xml
