@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
         meteoAdapter = new MeteoAdapter(this, meteoList);
         lv.setAdapter(meteoAdapter);
 
-        new MeteoAsyncTask().execute(this, URL, lv, tv_cityName, meteoAdapter, meteoList);
+        new MeteoAsyncTask().execute(this, URL, tv_cityName, meteoAdapter, meteoList);
     }
 
     public void updateWeather(View view) {
-        new MeteoAsyncTask().execute(URL, lv, tv_cityName, meteoAdapter, meteoList);
+        new MeteoAsyncTask().execute(this, URL, tv_cityName, meteoAdapter, meteoList);
     }
 }

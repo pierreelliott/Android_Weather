@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,20 +32,18 @@ import java.util.List;
  */
 public class MeteoAsyncTask extends AsyncTask<Object, Void, Void> {
 
-    private Context context;
-    private View v;
+    private WeakReference<Context> context = null;
     private TextView tv_cityName;
     private MeteoAdapter adapter;
     private List listMeteoData;
 
     @Override
     protected Void doInBackground(Object... objects) {
-        context = (Context) objects[0];
+        context = new WeakReference<>((Context) objects[0]);
         String urlName = (String) objects[1];
-        v = ( objects[2] instanceof ListView ) ? (ListView) objects[2] : null;
-        tv_cityName = (TextView) objects[3];
-        adapter = (MeteoAdapter) objects[4];
-        listMeteoData = (ArrayList<MeteoData>) objects[5];
+        tv_cityName = (TextView) objects[2];
+        adapter = (MeteoAdapter) objects[3];
+        listMeteoData = (ArrayList<MeteoData>) objects[4];
         listMeteoData.clear();
 
         JSONObject meteoJson;
@@ -106,13 +105,15 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, Void> {
 
     @Override
     public void onPostExecute(Void result) {
-        if(v == null) {
-            System.out.println("Erreur : View is null");
-        } else {
-            Intent i = new Intent(context, MainActivity.class);
-            context.startActivity(i);
-            tv_cityName.setText(MeteoData.getCity());
-            adapter.notifyDataSetChanged();
+        if(context.get() != null)
+        {
+            if(context.get().getClass() == SplashActivity.class)
+            {
+                Intent i = new Intent(context.get(), MainActivity.class);
+                tv_cityName.setText(MeteoData.getCity());
+                adapter.notifyDataSetChanged();
+                context.get().startActivity(i);
+            }
         }
     }
 }
