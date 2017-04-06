@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listView);
         tv_cityName = (TextView) findViewById(R.id.city);
 
-        meteoList = new ArrayList<MeteoData>();
+        meteoList = new ArrayList<>();
         meteoAdapter = new MeteoAdapter(this, meteoList);
         lv.setAdapter(meteoAdapter);
 

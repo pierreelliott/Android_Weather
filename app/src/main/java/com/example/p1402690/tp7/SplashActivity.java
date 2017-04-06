@@ -28,8 +28,8 @@ public class SplashActivity extends AppCompatActivity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
-        MeteoAdapter meteoAdapter = new MeteoAdapter(this, null);
         List meteoList = new ArrayList<>();
+        MeteoAdapter meteoAdapter = new MeteoAdapter(this, meteoList);
 
         if(isConnected)
         {

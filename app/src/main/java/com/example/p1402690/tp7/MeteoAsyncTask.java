@@ -110,9 +110,13 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, Void> {
             if(context.get().getClass() == SplashActivity.class)
             {
                 Intent i = new Intent(context.get(), MainActivity.class);
-                tv_cityName.setText(MeteoData.getCity());
                 adapter.notifyDataSetChanged();
                 context.get().startActivity(i);
+            }
+            else
+            {
+                tv_cityName.setText(MeteoData.getCity());
+                adapter.notifyDataSetChanged();
             }
         }
     }
