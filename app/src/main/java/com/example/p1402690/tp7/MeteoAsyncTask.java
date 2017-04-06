@@ -22,18 +22,20 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by p1402690 on 10/03/2017.
  */
-public class MeteoAsyncTask extends AsyncTask<Object, Void, ArrayList<MeteoData>> {
+public class MeteoAsyncTask extends AsyncTask<Object, Void, List> {
 
     private View v;
-    private MeteoAdapter adapter;
     private TextView tv_cityName;
+    private MeteoAdapter adapter;
+    private List listMeteoData;
 
     @Override
-    protected ArrayList<MeteoData> doInBackground(Object... objects) {
+    protected List doInBackground(Object... objects) {
         String urlName = (String) objects[0];
         if(objects[1] instanceof ListView)
         {
@@ -44,11 +46,12 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, ArrayList<MeteoData>
             return null;
         }
 
-        adapter = (MeteoAdapter) objects[2];
-        tv_cityName = (TextView) objects[3];
+        tv_cityName = (TextView) objects[2];
+        adapter = (MeteoAdapter) objects[3];
+        listMeteoData = (ArrayList<MeteoData>) objects[4];
+        listMeteoData.clear();
 
-        ArrayList<MeteoData> listMeteoData = new ArrayList<>();
-        JSONObject meteoJson = null;
+        JSONObject meteoJson;
         URL url = null;
         try {
             url = new URL(urlName);
@@ -106,14 +109,12 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, ArrayList<MeteoData>
     }
 
     @Override
-    public void onPostExecute(ArrayList<MeteoData> result) {
+    public void onPostExecute(List result) {
         if(v == null) {
             System.out.println("Erreur : View is null");
         } else if(v instanceof ListView) {
             tv_cityName.setText(MeteoData.getCity());
-            adapter.setList(result);
             adapter.notifyDataSetChanged();
-            ((ListView) v).setAdapter(adapter);
         }
     }
 }
