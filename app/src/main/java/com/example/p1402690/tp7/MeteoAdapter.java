@@ -15,13 +15,14 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by p1402690 on 17/03/2017.
  */
 public class MeteoAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
-    private ArrayList<MeteoData> myList = new ArrayList<MeteoData>();
+    private List myList;
     private Context context;
 
     DateFormat formatFR = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, new Locale("fr_FR"));
@@ -29,7 +30,7 @@ public class MeteoAdapter extends BaseAdapter implements AdapterView.OnItemClick
     // on passe le context afin d'obtenir un LayoutInflater pour utiliser notre
     // row_layout.xml
     // on passe les valeurs de notre à l'adapter
-    public MeteoAdapter(Context context, ArrayList<MeteoData> myList) {
+    public MeteoAdapter(Context context, List myList) {
         this.myList = myList;
         this.context = context;
     }
@@ -43,7 +44,7 @@ public class MeteoAdapter extends BaseAdapter implements AdapterView.OnItemClick
     // retourne un élément de notre liste en fonction de sa position
     @Override
     public MeteoData getItem(int position) {
-        return myList.get(position);
+        return (MeteoData) myList.get(position);
     }
 
     // retourne l'id d'un élément de notre liste en fonction de sa position
@@ -51,8 +52,6 @@ public class MeteoAdapter extends BaseAdapter implements AdapterView.OnItemClick
     public long getItemId(int position) {
         return myList.indexOf(getItem(position));
     }
-
-    public void setList(ArrayList<MeteoData> meteos) { myList = meteos; }
 
     // retourne la vue d'un élément de la liste
     @Override
@@ -119,7 +118,7 @@ public class MeteoAdapter extends BaseAdapter implements AdapterView.OnItemClick
     // nous récupérons l'objet grâce à sa position
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast toast = Toast.makeText(context, formatFR.format(this.myList.get(position).getTime()) + " : " + this.myList.get(position).getTemp() + "°C", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, formatFR.format(getItem(position).getTime()) + " : " + getItem(position).getTemp() + "°C", Toast.LENGTH_SHORT);
         toast.show();
     }
 }
