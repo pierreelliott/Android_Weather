@@ -4,6 +4,8 @@ package com.example.p1402690.tp7;
  * Created by p1402690 on 17/03/2017.
  */
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ListView;
@@ -27,28 +29,22 @@ import java.util.List;
 /**
  * Created by p1402690 on 10/03/2017.
  */
-public class MeteoAsyncTask extends AsyncTask<Object, Void, List> {
+public class MeteoAsyncTask extends AsyncTask<Object, Void, Void> {
 
+    private Context context;
     private View v;
     private TextView tv_cityName;
     private MeteoAdapter adapter;
     private List listMeteoData;
 
     @Override
-    protected List doInBackground(Object... objects) {
-        String urlName = (String) objects[0];
-        if(objects[1] instanceof ListView)
-        {
-            v  = (ListView) objects[1];
-        }
-        else
-        {
-            return null;
-        }
-
-        tv_cityName = (TextView) objects[2];
-        adapter = (MeteoAdapter) objects[3];
-        listMeteoData = (ArrayList<MeteoData>) objects[4];
+    protected Void doInBackground(Object... objects) {
+        context = (Context) objects[0];
+        String urlName = (String) objects[1];
+        v = ( objects[2] instanceof ListView ) ? (ListView) objects[2] : null;
+        tv_cityName = (TextView) objects[3];
+        adapter = (MeteoAdapter) objects[4];
+        listMeteoData = (ArrayList<MeteoData>) objects[5];
         listMeteoData.clear();
 
         JSONObject meteoJson;
@@ -105,14 +101,16 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, List> {
             e.printStackTrace();
         }
 
-        return listMeteoData;
+        return null;
     }
 
     @Override
-    public void onPostExecute(List result) {
+    public void onPostExecute(Void result) {
         if(v == null) {
             System.out.println("Erreur : View is null");
-        } else if(v instanceof ListView) {
+        } else {
+            Intent i = new Intent(context, MainActivity.class);
+            context.startActivity(i);
             tv_cityName.setText(MeteoData.getCity());
             adapter.notifyDataSetChanged();
         }
