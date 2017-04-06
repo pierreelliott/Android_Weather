@@ -1,5 +1,6 @@
 package com.example.p1402690.tp7;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,7 +8,7 @@ import java.util.Date;
 /**
  * Created by p1402690 on 17/03/2017.
  */
-public class MeteoData {
+public class MeteoData implements Serializable {
 
     private static String city;
 

@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -43,7 +44,7 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, Void> {
         String urlName = (String) objects[1];
         tv_cityName = (TextView) objects[2];
         adapter = (MeteoAdapter) objects[3];
-        listMeteoData = (ArrayList<MeteoData>) objects[4];
+        listMeteoData = (List) objects[4];
         listMeteoData.clear();
 
         JSONObject meteoJson;
@@ -58,7 +59,7 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, Void> {
 
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK)
             {
-                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream() )  );
+                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
                 String meteoData = "";
                 String line;
@@ -110,7 +111,8 @@ public class MeteoAsyncTask extends AsyncTask<Object, Void, Void> {
             if(context.get().getClass() == SplashActivity.class)
             {
                 Intent i = new Intent(context.get(), MainActivity.class);
-                adapter.notifyDataSetChanged();
+                i.putExtra("meteoList", (Serializable) listMeteoData);
+                i.putExtra("cityName", MeteoData.getCity());
                 context.get().startActivity(i);
             }
             else

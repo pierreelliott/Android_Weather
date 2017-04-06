@@ -11,6 +11,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +41,23 @@ public class SplashActivity extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(this, "Aucune connexion disponible", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Aucune connexion disponible", Toast.LENGTH_SHORT).show();
+            try {
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream("meteoDatas.dat"));
+
+                meteoList = (List) in.readObject();
+                String cityName = (String) in.readObject();
+                Intent i = new Intent(this, MainActivity.class);
+                i.putExtra("meteoList", (Serializable) meteoList);
+                i.putExtra("cityName", cityName);
+                in.close();
+
+                startActivity(i);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
